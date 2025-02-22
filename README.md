@@ -1,5 +1,3 @@
-# SPYcats
-
 # Spy Cats Project
 
 This project implements a microservice architecture in Go, which interacts with PostgreSQL for data storage. Docker is used for containerization to isolate the environment, automate service startups, and manage database migrations.
