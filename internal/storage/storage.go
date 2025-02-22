@@ -19,20 +19,16 @@ var (
 type CatRepository interface {
 	CreateSpyCat(ctx context.Context, cat *models.CatModel) (int64, error)
 	DeleteSpyCat(ctx context.Context, id *int64) error
-
 	GetSpyCat(ctx context.Context, id int64) (*models.CatModel, error)
 	ListSpyCats(ctx context.Context) ([]models.CatModel, error)
-
 	UpdateSpyCatSalary(ctx context.Context, id int64, newSalary float64) (float64, error)
 }
 
 type MissionRepository interface {
 	CreateMission(ctx context.Context, mission *models.MissionModel) (int64, error)
 	DeleteMission(ctx context.Context, id int64) error
-
 	GetMission(ctx context.Context, id int64) (*models.MissionModel, error)
 	ListMissions(ctx context.Context) ([]models.MissionModel, error)
-
 	CompleteMission(ctx context.Context, missionID int64) error
 }
 

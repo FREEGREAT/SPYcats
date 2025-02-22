@@ -13,27 +13,26 @@ type SpyCatService struct {
 // CreateSpyCat implements SpyCat.
 func (s *SpyCatService) CreateSpyCat(ctx context.Context, cat *models.CatModel) (int64, error) {
 	return s.repo.CreateSpyCat(ctx, cat)
-
 }
 
 // DeleteSpyCat implements SpyCat.
 func (s *SpyCatService) DeleteSpyCat(ctx context.Context, id *int64) error {
-	panic("unimplemented")
+	return s.repo.DeleteSpyCat(ctx, id)
 }
 
 // GetSpyCat implements SpyCat.
 func (s *SpyCatService) GetSpyCat(ctx context.Context, id int64) (*models.CatModel, error) {
-	panic("unimplemented")
+	return s.repo.GetSpyCat(ctx, id)
 }
 
 // ListSpyCats implements SpyCat.
 func (s *SpyCatService) ListSpyCats(ctx context.Context) ([]models.CatModel, error) {
-	panic("unimplemented")
+	return s.repo.ListSpyCats(ctx)
 }
 
 // UpdateSpyCatSalary implements SpyCat.
 func (s *SpyCatService) UpdateSpyCatSalary(ctx context.Context, id int64, newSalary float64) (float64, error) {
-	panic("unimplemented")
+	return s.repo.UpdateSpyCatSalary(ctx, id, newSalary)
 }
 
 func NewSpyCatService(repo storage.CatRepository) SpyCat {

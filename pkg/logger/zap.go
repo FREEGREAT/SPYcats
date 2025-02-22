@@ -5,7 +5,7 @@ package logger
 import (
 	"context"
 	"os"
-	middleware "spy-cats/internal/middlewae" // Оновіть на ваш правильний шлях імпорту
+	"spy-cats/internal/handler/middleware"
 
 	"github.com/sirupsen/logrus"
 )

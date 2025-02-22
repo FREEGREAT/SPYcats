@@ -1,5 +1,7 @@
+
+version: "3.8"
 services:
-  postgres:
+ postgres:
     image: postgres:latest
     container_name: spy_cats_pg
     environment:
@@ -39,3 +41,6 @@ services:
 volumes:
   pgdata:
     driver: local
+
+
+ 

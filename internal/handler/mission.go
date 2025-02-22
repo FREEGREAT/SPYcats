@@ -16,7 +16,7 @@ func (h *Handler) createMission(c *gin.Context) {
 		return
 	}
 
-	id, err := h.services.Mission.CreateMission(c, &input)
+	id, err := h.services.MissionRepository.CreateMission(c, &input)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -35,7 +35,7 @@ func (h *Handler) deleteMission(c *gin.Context) {
 		return
 	}
 
-	err = h.services.Mission.DeleteMission(c, id)
+	err = h.services.MissionRepository.DeleteMission(c, id)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -53,7 +53,7 @@ func (h *Handler) getMissionById(c *gin.Context) {
 		return
 	}
 
-	mission, err = h.services.Mission.GetMission(c, id)
+	mission, err = h.services.MissionRepository.GetMission(c, id)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -62,7 +62,7 @@ func (h *Handler) getMissionById(c *gin.Context) {
 }
 func (h *Handler) getListOfMission(c *gin.Context) {
 	var missions []models.MissionModel
-	missions, err := h.services.Mission.ListMissions(c)
+	missions, err := h.services.MissionRepository.ListMissions(c)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -76,7 +76,7 @@ func (h *Handler) completeMission(c *gin.Context) {
 		newErrorResponse(c, http.StatusBadRequest, "Invalid ID format")
 		return
 	}
-	err = h.services.Mission.CompleteMission(c, id)
+	err = h.services.MissionRepository.CompleteMission(c, id)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return

@@ -1,4 +1,4 @@
-package postgre
+package repo
 
 import (
 	"context"
@@ -64,7 +64,6 @@ func (r *missionTableImpl) GetMission(ctx context.Context, id int64) (*models.Mi
 		&mission.CreatedAt,
 		&mission.UpdatedAt,
 	)
-
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, storage.ErrNotFound
@@ -100,7 +99,6 @@ func (r *missionTableImpl) ListMissions(ctx context.Context) ([]models.MissionMo
 		}
 		missions = append(missions, mission)
 	}
-
 	if err = rows.Err(); err != nil {
 		return nil, fmt.Errorf("error iterating mission rows: %w", err)
 	}
@@ -115,7 +113,6 @@ func (r *missionTableImpl) CompleteMission(ctx context.Context, id int64) error 
 	if err != nil {
 		return fmt.Errorf("failed to change mission`s status: %w", err)
 	}
-
 	if commandTag.RowsAffected() == 0 {
 		return storage.ErrNotFound
 	}

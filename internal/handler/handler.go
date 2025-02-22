@@ -1,7 +1,7 @@
 package handler
 
 import (
-	middleware "spy-cats/internal/middlewae"
+	"spy-cats/internal/handler/middleware"
 	service "spy-cats/internal/services"
 
 	"github.com/gin-gonic/gin"
@@ -41,7 +41,6 @@ func (h *Handler) InitRoutes(router *gin.Engine) *gin.Engine {
 		target.GET("/by-mission/:id", h.getTargetListByMission)
 		target.PATCH("/completed/:id", h.setTargetCompleted)
 	}
-
 	note := router.Group("/note")
 	{
 		note.POST("/", h.createNote)

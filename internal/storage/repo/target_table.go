@@ -1,4 +1,4 @@
-package postgre
+package repo
 
 import (
 	"context"
@@ -49,7 +49,6 @@ func (r *targetRepository) DeleteTarget(ctx context.Context, id int64) error {
 	if err != nil {
 		return err
 	}
-
 	rowsAffected := result.RowsAffected()
 
 	if rowsAffected == 0 {
@@ -73,7 +72,6 @@ func (r *targetRepository) GetTarget(ctx context.Context, id int64) (*models.Tar
 		}
 		return nil, err
 	}
-
 	return target, nil
 }
 
@@ -94,7 +92,6 @@ func (r *targetRepository) ListTargetsByMission(ctx context.Context, missionID i
 		}
 		targets = append(targets, target)
 	}
-
 	return targets, nil
 }
 

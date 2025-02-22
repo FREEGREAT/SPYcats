@@ -4,12 +4,15 @@ import (
 	"context"
 	"os"
 	"spy-cats/internal/handler"
-	middleware "spy-cats/internal/middlewae"
+	"spy-cats/internal/handler/middleware"
+	"spy-cats/internal/services/api"
 
-	"spy-cats/internal/server"
+	"spy-cats/internal/storage/repo"
+
 	service "spy-cats/internal/services"
 	"spy-cats/pkg/logger"
 	db_connection "spy-cats/pkg/pg_connection"
+	"spy-cats/pkg/server"
 	"spy-cats/pkg/utils"
 
 	"github.com/gin-gonic/gin"
@@ -18,13 +21,11 @@ import (
 )
 
 func main() {
-
 	log := logger.New("debug")
 
 	if err := utils.InitConfig(); err != nil {
 		log.Fatal("Error initializing configs", "error", err)
 	}
-
 	if err := godotenv.Load(); err != nil {
 		log.Fatal("Error loading env variables", "error", err)
 	}
@@ -33,7 +34,7 @@ func main() {
 		Host:     viper.GetString("postgre.host"),
 		Port:     viper.GetString("postgre.port"),
 		Username: viper.GetString("postgre.username"),
-		Password: os.Getenv("DB_PASSWORD"),
+		Password: viper.GetString("postgre.password"),
 		Database: viper.GetString("postgre.db"),
 		SSLMode:  viper.GetString("postgre.ssl"),
 	})
@@ -41,7 +42,14 @@ func main() {
 		log.Fatal("Failed to initialize database", "error", err)
 	}
 
-	services := service.NewService(db, log)
+	chatRepo := repo.NewCatRepository(db)
+	missionRepo := repo.NewMissionRepository(db)
+	noteRepo := repo.NewNoteRepository(db)
+	targetRepo := repo.NewTargetRepository(db)
+
+	catApi := api.NewCatAPI(os.Getenv("BASE_URL"), os.Getenv("API_KEY"))
+
+	services := service.NewService(chatRepo, missionRepo, noteRepo, targetRepo, log, catApi)
 	handlers := handler.NewHandler(services, log)
 
 	router := gin.New()

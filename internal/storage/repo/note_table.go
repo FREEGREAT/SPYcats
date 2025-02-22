@@ -1,4 +1,4 @@
-package postgre
+package repo
 
 import (
 	"context"
@@ -98,6 +98,5 @@ func (n *noteTableImpl) UpdateNote(ctx context.Context, noteID int64, newContent
 }
 
 func NewNoteRepository(client db_connection.Client) storage.NoteRepository {
-
 	return &noteTableImpl{client: client}
 }

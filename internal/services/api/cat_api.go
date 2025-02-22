@@ -1,25 +1,36 @@
+// internal/api/cat_api.go
 package api
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"os"
 	"spy-cats/internal/models"
 )
 
-const baseURL = "https://api.thecatapi.com/v1/breeds"
+type CatApi struct {
+	baseURL string
+	apiKey  string
+}
 
-func IsValidBreed(breedName string) (bool, error) {
-	req, err := http.NewRequest("GET", baseURL, nil)
-	if err != nil {
-		return false, err
+func NewCatAPI(baseURL, apiKey string) *CatApi {
+	return &CatApi{
+		baseURL: baseURL,
+		apiKey:  apiKey,
 	}
-	req.Header.Set("x-api-key", os.Getenv("API_KEY"))
+}
+
+func (c *CatApi) IsValidBreed(breedName string) (bool, error) {
+	req, err := http.NewRequestWithContext(context.Background(), "GET", c.baseURL, nil)
+	if err != nil {
+		return false, fmt.Errorf("failed to create request: %w", err)
+	}
+	req.Header.Set("x-api-key", c.apiKey)
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return false, err
+		return false, fmt.Errorf("failed to execute request: %w", err)
 	}
 	defer resp.Body.Close()
 
@@ -29,7 +40,7 @@ func IsValidBreed(breedName string) (bool, error) {
 
 	var breeds []models.CatBreed
 	if err := json.NewDecoder(resp.Body).Decode(&breeds); err != nil {
-		return false, err
+		return false, fmt.Errorf("failed to decode response: %w", err)
 	}
 
 	for _, breed := range breeds {

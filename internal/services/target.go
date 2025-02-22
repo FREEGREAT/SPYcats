@@ -12,27 +12,27 @@ type TargetService struct {
 
 // CompleteTarget implements Target.
 func (t *TargetService) CompleteTarget(ctx context.Context, id int64) error {
-	panic("unimplemented")
+	return t.repo.CompleteTarget(ctx, id)
 }
 
 // CreateTarget implements Target.
 func (t *TargetService) CreateTarget(ctx context.Context, target *models.TargetModel) (int, error) {
-	panic("unimplemented")
+	return t.repo.CreateTarget(ctx, target)
 }
 
 // DeleteTarget implements Target.
 func (t *TargetService) DeleteTarget(ctx context.Context, id int64) error {
-	panic("unimplemented")
+	return t.repo.DeleteTarget(ctx, id)
 }
 
 // GetTarget implements Target.
 func (t *TargetService) GetTarget(ctx context.Context, id int64) (*models.TargetModel, error) {
-	panic("unimplemented")
+	return t.repo.GetTarget(ctx, id)
 }
 
 // ListTargetsByMission implements Target.
 func (t *TargetService) ListTargetsByMission(ctx context.Context, missionID int64) ([]models.TargetModel, error) {
-	panic("unimplemented")
+	return t.repo.ListTargetsByMission(ctx, missionID)
 }
 
 func NewTargetService(repo storage.TargetRepository) Target {

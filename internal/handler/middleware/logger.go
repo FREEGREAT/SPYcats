@@ -48,11 +48,9 @@ func RequestLogger(log Logger) gin.HandlerFunc {
 			"client_ip", c.ClientIP(),
 			"user_agent", c.Request.UserAgent(),
 		)
-
 		reqLogger.Info("Incoming request")
 
 		c.Next()
-
 		duration := time.Since(start)
 
 		logFields := []interface{}{
@@ -60,11 +58,9 @@ func RequestLogger(log Logger) gin.HandlerFunc {
 			"duration", duration,
 			"bytes", c.Writer.Size(),
 		}
-
 		if raw != "" {
 			logFields = append(logFields, "query", raw)
 		}
-
 		if len(c.Errors) > 0 {
 			logFields = append(logFields, "errors", c.Errors.String())
 		}

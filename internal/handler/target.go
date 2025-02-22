@@ -15,17 +15,14 @@ func (h *Handler) createTarget(c *gin.Context) {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
-
-	id, err := h.services.Target.CreateTarget(c, &input)
+	id, err := h.services.TargetRepository.CreateTarget(c, &input)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
-
 	c.JSON(http.StatusOK, map[string]interface{}{
 		"Target id:": id,
 	})
-
 }
 func (h *Handler) deleteTarget(c *gin.Context) {
 	idStr := c.Param("id")
@@ -35,16 +32,14 @@ func (h *Handler) deleteTarget(c *gin.Context) {
 		newErrorResponse(c, http.StatusBadRequest, "Invalid ID format")
 		return
 	}
-
-	err = h.services.Target.DeleteTarget(c, id)
+	err = h.services.TargetRepository.DeleteTarget(c, id)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
-
 	c.JSON(http.StatusOK, nil)
-
 }
+
 func (h *Handler) getTargetById(c *gin.Context) {
 	var targetModel *models.TargetModel
 	idStr := c.Param("id")
@@ -54,16 +49,14 @@ func (h *Handler) getTargetById(c *gin.Context) {
 		newErrorResponse(c, http.StatusBadRequest, "Invalid ID format")
 		return
 	}
-
-	targetModel, err = h.services.Target.GetTarget(c, id)
+	targetModel, err = h.services.TargetRepository.GetTarget(c, id)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
-
 	c.JSON(http.StatusOK, targetModel)
-
 }
+
 func (h *Handler) getTargetListByMission(c *gin.Context) {
 	var targetModel []models.TargetModel
 	idStr := c.Param("id")
@@ -73,16 +66,14 @@ func (h *Handler) getTargetListByMission(c *gin.Context) {
 		newErrorResponse(c, http.StatusBadRequest, "Invalid ID format")
 		return
 	}
-
-	targetModel, err = h.services.Target.ListTargetsByMission(c, id)
+	targetModel, err = h.services.TargetRepository.ListTargetsByMission(c, id)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
-
 	c.JSON(http.StatusOK, targetModel)
-
 }
+
 func (h *Handler) setTargetCompleted(c *gin.Context) {
 	idStr := c.Param("id")
 
@@ -91,13 +82,10 @@ func (h *Handler) setTargetCompleted(c *gin.Context) {
 		newErrorResponse(c, http.StatusBadRequest, "Invalid ID format")
 		return
 	}
-
-	err = h.services.Target.CompleteTarget(c, id)
+	err = h.services.TargetRepository.CompleteTarget(c, id)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
-
 	c.JSON(http.StatusOK, nil)
-
 }

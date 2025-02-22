@@ -1,4 +1,4 @@
-package postgre
+package repo
 
 import (
 	"context"
@@ -70,7 +70,6 @@ func (r *catTableImpl) GetSpyCat(ctx context.Context, id int64) (*models.CatMode
 		&cat.CreatedAt,
 		&cat.UpdatedAt,
 	)
-
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, storage.ErrNotFound
@@ -129,15 +128,12 @@ func (r *catTableImpl) UpdateSpyCatSalary(ctx context.Context, id int64, newSala
 	if err != nil {
 		return 0, fmt.Errorf("failed to update spy cat salary: %w", err)
 	}
-
 	err = r.client.QueryRow(ctx, query,
 		newSalary,
 		id,
 	).Scan(response)
-
 	if commandTag.RowsAffected() == 0 {
 		return 0, storage.ErrNotFound
 	}
-
 	return response, nil
 }
