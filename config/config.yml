@@ -1,0 +1,11 @@
+postgre:
+  host: "postgres"
+  port: 5432
+  username: "admin"
+  password: "admin"
+  db: "spy_cats_db"
+  ssl: "disable"
+  connectTries: 3
+
+srv:
+ port: "8080"
