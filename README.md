@@ -87,10 +87,6 @@ Detailed API documentation is available in Postman:
 - PATCH `/api/targets/{id}` - Update target
 - DELETE `/api/targets/{id}` - Delete target
 
-For detailed request/response examples, query parameters, and testing instructions, please refer to the [Postman Documentation](https://documenter.getpostman.com/view/31399546/2sAYdcqXRT).
-
-[Previous sections (Project Structure, etc.) remain the same...]
-
 
 ### 6. Clean Up
 
