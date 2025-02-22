@@ -23,7 +23,7 @@ func (h *Handler) InitRoutes(router *gin.Engine) *gin.Engine {
 		cat.DELETE("/:id", h.deleteCat)
 		cat.GET("/:id", h.getCatById)
 		cat.GET("/list", h.getListOfCats)
-		cat.PUT("/", h.updateCatSalary)
+		cat.PATCH("/", h.updateCatSalary)
 	}
 	mission := router.Group("/mission")
 	{

@@ -91,11 +91,11 @@ func (h *Handler) updateCatSalary(c *gin.Context) {
 		newErrorResponse(c, http.StatusBadRequest, "Invalid request body")
 		return
 	}
-	response, err := h.services.CatRepository.UpdateSpyCatSalary(c, reqMod.ID, reqMod.Salary)
+	_, err := h.services.CatRepository.UpdateSpyCatSalary(c, reqMod.ID, reqMod.Salary)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"NewSalary": response})
+	c.JSON(http.StatusOK, gin.H{"NewSalary": reqMod.Salary})
 }
