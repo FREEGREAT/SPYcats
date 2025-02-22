@@ -54,10 +54,7 @@ docker-compose run --rm migrate
 
 This will apply all migrations to the database.
 
-### 5. Verify API is Running
-[Previous sections remain the same...]
-
-## API Documentation
+### 5. API Documentation
 
 Detailed API documentation is available in Postman:
 [Spy Cats API Documentation](https://documenter.getpostman.com/view/31399546/2sAYdcqXRT)
