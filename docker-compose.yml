@@ -1,7 +1,7 @@
+version: '3.8'
 
-version: "3.8"
 services:
- postgres:
+  postgres:
     image: postgres:latest
     container_name: spy_cats_pg
     environment:
@@ -13,34 +13,39 @@ services:
       - "5430:5432"
     volumes:
       - ./pgdata:/var/lib/postgresql/data/pgdata
-    deploy:
-      resources:
-        limits:
-          cpus: '0.50'
-          memory: 512M
-        reservations:
-          cpus: '0.25'
-          memory: 256M
-    command: >
-      postgres -c max_connections=1000
-               -c shared_buffers=256MB
-               -c effective_cache_size=768MB
-               -c maintenance_work_mem=64MB
-               -c checkpoint_completion_target=0.7
-               -c wal_buffers=16MB
-               -c default_statistics_target=100
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres_user -d postgres_db" ]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    restart: unless-stopped
-    tty: true
-    stdin_open: true
+      - ./schema:/docker-entrypoint-initdb.d  # Автоматичне виконання міграцій
+    networks:
+      - spy_cats_network
 
-volumes:
-  pgdata:
-    driver: local
+  migrate:
+    image: migrate/migrate
+    container_name: spy_cats_migrate
+    volumes:
+      - .:/app
+    working_dir: /app
+    entrypoint: ["migrate", "-path", "./schema", "-database", "postgres://admin:admin@postgres:5432/spy_cats_db?sslmode=disable", "up"]
+    depends_on:
+      - postgres
+    networks:
+      - spy_cats_network
+    restart: "no"
 
+  spy_cats_apps:
+    build:
+      context: .
+      dockerfile: local.Dockerfile
+    container_name: spy_cats_go_app
+    environment:
+      DATABASE_URL: postgres://admin:admin@postgres:5432/spy_cats_db?sslmode=disable
+    depends_on:
+      - postgres
+      - migrate
+    networks:
+      - spy_cats_network
+    restart: always 
+    ports:
+      - "8080:8080"
 
- 
+networks:
+  spy_cats_network:
+    driver: bridge

@@ -13,11 +13,11 @@ import (
 )
 
 type StorageConfig struct {
-	Host     string
+	Host     string `env:"POSTGRESQL_HOST"`
 	Port     string
-	Username string
-	Password string
-	Database string
+	Username string `env:"POSTGRESQL_USER"`
+	Password string `env:"POSTGRESQL_PASSWORD"`
+	Database string `env:"POSTGRESQL_DATABASE"`
 	SSLMode  string
 }
 
